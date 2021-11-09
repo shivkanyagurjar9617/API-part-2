@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>API calling</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Username</th>
+                <th scope="col">Email</th>
+                <th scope="col">Address</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Website</th>
+                <th scope="col">Company</th>
+              </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+          </table>    
+        <script>
+            //lets create our own class
+            class MyClass{
+                sum(a,b){
+                    return a+b;
+                }
+            }
+            //lets create from object myclass
+            let obj = new MyClass();
+            let result = obj.sum(10,20);
+            console.log('result',result);
+
+        </script>
+        <script>
+            //function callback
+            //function defination
+            function getUserInfo(object,cbfn){
+                 //lets create a xhr object
+                 let xhr = new XMLHttpRequest();
+                 xhr.open(object.method,object.url);
+                 xhr.send();
+                 xhr.onload = function(){
+                     console.log(xhr.responseText);
+                     cbfn(xhr.responseText);
+                 }
+                
+                
+            }
+            //function calling
+            getUserInfo({url:'https://jsonplaceholder.typicode.com/users',method:"GET"},function(response){
+                console.log(response);
+                console.log(typeof response);
+                response = JSON.parse(response);
+
+                console.log(response);
+                console.log(typeof response);
+                var tr = '';
+                response.forEach((currentElement,index,arr) => {
+                  console.log(currentElement)
+                  console.log(currentElement.name)
+                  
+                  tr += `<tr>
+                                    <th scope="row">`+currentElement.id+`</th>
+                                    <td>`+currentElement.name+`</td>
+                                    <td>`+currentElement.username+`</td>
+                                    <td>`+currentElement.email+`</td>
+                                    <th scope="row">`+currentElement.address+`</th>
+                                    <td>`+currentElement.phone+`</td>
+                                    <td>`+currentElement.website+`</td>
+                                    <td>`+currentElement.company+`</td>
+                                </tr>`
+                });
+
+                console.log(tr);
+                document.querySelector('table > tbody').innerHTML = tr;
+
+                document.querySelector('div.d-flex.justify-content-center').remove();
+                });
+            
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script> 
+    </body>
+</html>
